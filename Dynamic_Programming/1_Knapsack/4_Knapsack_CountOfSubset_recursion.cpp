@@ -4,13 +4,13 @@
 using namespace std;
 
 // Returns the value of maximum profit
-bool knapSackRec(int sum, int wt[], int n, vector<vector<int>> dp)
+int knapSackRec(int sum, int wt[], int n, vector<vector<int>> dp)
 {
     // base condition
     if (sum == 0)
-        return true;
+        return 1;
     if (n == 0)
-        return false;
+        return 0;
 
     if (dp[n][sum] != -1)
         return dp[n][sum];
@@ -22,12 +22,12 @@ bool knapSackRec(int sum, int wt[], int n, vector<vector<int>> dp)
     }
     else
     {
-        dp[n][sum] = (knapSackRec(sum - wt[n - 1], wt, n - 1, dp) || knapSackRec(sum, wt, n - 1, dp));
+        dp[n][sum] = (knapSackRec(sum - wt[n - 1], wt, n - 1, dp) + knapSackRec(sum, wt, n - 1, dp));
         return dp[n][sum];
     }
 }
 
-bool knapSack(int sum, int wt[], int n)
+int knapSack(int sum, int wt[], int n)
 {
     vector<vector<int>> dp(n + 1, vector<int>(sum + 1, -1)); //Very Important
 
@@ -36,10 +36,10 @@ bool knapSack(int sum, int wt[], int n)
 
 int main()
 {
-    int wt[] = {1, 3, 3, 1};
+    int wt[] = {1, 3, 4, 1, 2};
     int sum = 5;
     int n = sizeof(wt) / sizeof(wt[0]);
-    (knapSack(sum, wt, n)) ? cout << "True" : cout << "False";
+    cout << knapSack(sum, wt, n) << "\n";
     cout << endl;
     return 0;
 }

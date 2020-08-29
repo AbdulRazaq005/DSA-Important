@@ -27,19 +27,23 @@ bool knapSackRec(int sum, int wt[], int n, vector<vector<int>> dp)
     }
 }
 
-bool knapSack(int sum, int wt[], int n)
+bool knapSack(int wt[], int n)
 {
-    vector<vector<int>> dp(n + 1, vector<int>(sum + 1, -1)); //Very Important
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+        sum += wt[i];
+    if (sum % 2 != 0)
+        return false;
+    vector<vector<int>> dp(n + 1, vector<int>(sum / 2 + 1, -1)); //Very Important
 
-    return knapSackRec(sum, wt, n, dp);
+    return knapSackRec(sum / 2, wt, n, dp);
 }
 
 int main()
 {
-    int wt[] = {1, 3, 3, 1};
-    int sum = 5;
+    int wt[] = {1, 2, 3, 2};
     int n = sizeof(wt) / sizeof(wt[0]);
-    (knapSack(sum, wt, n)) ? cout << "True" : cout << "False";
+    (knapSack(wt, n)) ? cout << "True" : cout << "False";
     cout << endl;
     return 0;
 }
